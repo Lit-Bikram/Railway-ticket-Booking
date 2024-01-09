@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Railway Ticket Booking</title>
+    <link rel="stylesheet" href="static\css\index.css" />
+  </head>
+  <body>
+    <div class="main">
+      <h1 class="head">Railway Ticket reservation system</h1>
+      <!-- <div class="navigation">
+        <ul>
+          <li><a href="index.html" id="onlink">HOME</a></li>
+          <li><a href="meal.html">MEALS</a></li>
+          <li><a href="holiday.html">H PACKAGES</a></li>
+          <li><a href="service.html">SERVICE</a></li>
+          <li><a href="contact.html">CONTACT US</a></li>
+        </ul>
+      </div> -->
+      <div class="booking">
+        <section>
+          <h2 class="head1">Book Your</h2>
+          <h2 class="head2">Tickets Here</h2>
+
+          <form action="/getDetails" method="post">
+            <ul>
+              <b class="fsize">From &emsp;
+                <select name="from" id="from" required>
+                  <option value="select">SELECT</option>
+                  <option value="Howrah">Howrah</option>
+                  <br>
+                </select>
+              </b>
+              <br />
+              <br />
+              <b class="fsize">To &emsp;
+                <select name="to" id="to" required>
+                  <option value="select">SELECT</option>
+                  <option value="Sealdah">Sealdah</option>
+                  <br>
+                </select>
+              </b>
+              <br />
+              <br />
+              <b class="fsize">Date&emsp;
+                <input type="Date" placeholder="dd-mm-yy" name = "date" required/>
+              </b>
+              <br />
+              <br />
+              <label class="bogie"><strong> Class </strong> </label>
+              <br>
+              <br>
+              <select id="class" name="bogie" required>
+                <option value="select">SELECT</option>
+                <option value="1AC">1AC</option>
+                <option value="2AC">2AC</option>
+                <option value="3AC">3AC</option>
+                <option value="Sleeper">Sleeper</option>
+                <option value="Chair">Chair</option>
+                <br />
+              </select>
+              <br>
+              <br>
+              <label class="person"><strong>Person</strong></label><br><br>
+              <select name="person" id="person" required>
+                <option value="select">SELECT</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </ul>
+            <input class="submit" value = "CONFIRM" type = "submit">
+          </form>
+
+          
+
+          <!-- <div class="form-popup" id="bookTrain">
+            <div class="popup">
+              <h1>Due to Covid19 all trains are currently cancelled</h1>
+              <br />
+              <h2>#stayhome</h2>
+              <h2>#staysafe</h2>
+              <button type="button" class="hide" onclick="trainC()">
+                Close
+              </button>
+            </div>
+          </div> -->
+        </section>
+      </div>
+
+      <img
+        class="img"
+        src="static\img\home.jpg"
+        alt="train"
+        width="500"
+        height="350"
+        align="center"/>
+
+      <h1 class="holiday">HOLIDAYS</h1>
+
+      <img class="imgs" src="static\img\taj.jpg" alt="Taj Mahal" />
+      <img class="imgs" src="static\img\temple.jpg" alt="Golden Temple" />
+      <img class="imgs" src="static\img\tower.jpg" alt="Eiffel Tower" />
+    </div>
+    <script src="static\js\main.js"></script>
+  </body>
+</html>

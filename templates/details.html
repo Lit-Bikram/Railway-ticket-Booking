@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enter Details</title>
+    <link rel="stylesheet" href="static\css\index.css">
+  </head>
+  <body>
+    <div class="main">
+        <h1 class="head">Railway Ticket reservation system</h1>
+        <br><br>
+        <form action="/submit" method="post">
+            <div id="details-container"></div>
+            <input type="hidden" id="personValue" value="{{ person }}">
+            <div class="book-tickets">
+                <input class="submit" value="Book Tickets" type="submit" onclick="captureFormData()">
+            </div>
+        </form>
+    </div>
+    <script>
+        // Get the value of "person" from the hidden input field
+        const person = document.getElementById("personValue").value;
+  
+        // Function to clone and append the details div based on the value of "person"
+        function appendDetails() {
+          const detailsContainer = document.getElementById("details-container");
+          const detailsTemplate = document.getElementById("details");
+  
+          for (let i = 0; i < person; i++) {
+            const clonedDetails = detailsTemplate.cloneNode(true);
+            clonedDetails.id = ""; // Remove id to avoid duplicate ids
+            detailsContainer.appendChild(clonedDetails);
+          }
+        }
+  
+        // Call the function when the page loads
+        window.onload = appendDetails;
+    </script>
+    <div id="details">
+        <b class="fsize">First Name &emsp;
+            <input type="text" name="first-name" class="first-name">
+            <br><br>
+        </b>
+        <b class="fsize">Last Name &emsp;
+            <input type="text" name="last-name" class="last-name">
+            <br><br>
+        </b>
+        <b class="fsize">Age &emsp;
+            <input type="number" name="age" class="age">
+            <br><br>
+        </b>
+        <b class="fsize">Gender &emsp;</b>
+        <label>
+            <input type="radio" name="gender" value="male">
+            Male
+        </label>
+
+        <label>
+            <input type="radio" name="gender" value="female">
+            Female
+        </label>
+
+        <label>
+            <input type="radio" name="gender" value="other">
+            Other
+        </label>
+        <br><br>
+    </div>
+    <p>{{person}}</p>
+    
+  </body>
+</html>

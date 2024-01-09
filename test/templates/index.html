@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form</title>
+</head>
+<body>
+    <h2>Simple Form</h2>
+    <form action="/submit" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="dates" required><br>
+        
+        <label for="department">Department:</label>
+        <select id="department" name="department" required>
+            <option value="hr">HR</option>
+            <option value="finance">Finance</option>
+            <option value="it">IT</option>
+            <option value="marketing">Marketing</option>
+        </select><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
