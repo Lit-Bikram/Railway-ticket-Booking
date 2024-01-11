@@ -41,23 +41,29 @@ def submit():
 @app.route('/submit', methods=['POST'])
 def submit_details():
     global details
-    person_value = request.form.get('person')
+    person_value = int(request.form.get('person'))
     
     details = []
-    for i in range(int(person_value)):
+    for i in range(person_value):
         first_name = request.form.get(f'first-name-{i}')
         last_name = request.form.get(f'last-name-{i}')
         age = request.form.get(f'age-{i}')
         gender = request.form.get(f'gender-{i}')
         
+        
+        print(first_name)
+        print(last_name)
+        print(age)
+        print(gender)
         details.append({
             'first_name': first_name,
             'last_name': last_name,
             'age': age,
             'gender': gender
         })
+    
+    print(details)
     return redirect(url_for("index"))
-
 
 if __name__ == "__main__":
     app.run(debug=True,port=8000)
