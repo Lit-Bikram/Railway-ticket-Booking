@@ -1,4 +1,4 @@
-from flask import Flask,render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -37,6 +37,27 @@ def submit():
         
         print(source,to,date,bogie,person)
         return render_template("details.html",person = person)
+
+@app.route('/submit', methods=['POST'])
+def submit_details():
+    global details
+    person_value = request.form.get('person')
+    
+    details = []
+    for i in range(int(person_value)):
+        first_name = request.form.get(f'first-name-{i}')
+        last_name = request.form.get(f'last-name-{i}')
+        age = request.form.get(f'age-{i}')
+        gender = request.form.get(f'gender-{i}')
+        
+        details.append({
+            'first_name': first_name,
+            'last_name': last_name,
+            'age': age,
+            'gender': gender
+        })
+    return redirect(url_for("index"))
+
 
 if __name__ == "__main__":
     app.run(debug=True,port=8000)

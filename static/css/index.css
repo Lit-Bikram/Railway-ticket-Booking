@@ -267,3 +267,12 @@ tr:hover {
 #details{
   display:none;
 }
+
+.person-number{
+  font-family: algerian;
+  font-size: x-large;
+}
+
+#details-container{
+  padding-left: 30px;
+}

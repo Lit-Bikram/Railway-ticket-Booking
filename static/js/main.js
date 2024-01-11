@@ -138,19 +138,3 @@ function h5BC(){
   document.getElementById("hBook10").style.display = "none";
 }
 
-function captureFormData() {
-  var formDataArray = [];
-
-  for (var i = 0; i < 5; i++) {
-      var firstName = document.getElementById('first-name').value;
-      var lastName = document.getElementById('last-name').value;
-      var age = document.getElementById('age').value;
-      var gender = document.querySelector('input[name="gender"]:checked').value;
-
-      var personData = [firstName, lastName, age, gender];
-      formDataArray.push(personData);
-  }
-
-  console.log(formDataArray);
-  // You can now use formDataArray for further processing or send it to the server.
-}
