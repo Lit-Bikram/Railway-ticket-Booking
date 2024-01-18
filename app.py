@@ -50,11 +50,6 @@ def submit_details():
         age = request.form.get(f'age-{i}')
         gender = request.form.get(f'gender-{i}')
         
-        
-        print(first_name)
-        print(last_name)
-        print(age)
-        print(gender)
         details.append({
             'first_name': first_name,
             'last_name': last_name,
