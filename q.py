@@ -1,9 +1,8 @@
 from pqueue import PriorityQueue
 import pymysql
+import csv
 
-
-conn = pymysql.connect(host='localhost', user='root',
-                       password="Bikram@2004", db='train')
+conn = pymysql.connect(host='localhost', user='root',password="Bikram@2004", db='train')
 cur = conn.cursor(pymysql.cursors.DictCursor)
 
 
@@ -29,38 +28,37 @@ def getALlSeatNumber():
     return seats
 
 
-def iterateAllSeats():
-    seats = getALlSeatNumber()
-    index = len(seats) // 2
-    flag = True
+# def iterateAllSeats():
+#     seats = getALlSeatNumber()
+#     index = len(seats) // 2
+#     flag = True
 
-    temp = seats[index]
+#     temp = seats[index]
 
-    # seat allocate iteration
-    for i in temp:
-        print(i, end="\t")
-    else:
-        print()
-        for j in range(1, 9):
-            if flag == True:
-                index -= j
-                for k in seats[index]:
-                    print(k, end="\t")
-                flag = False
-                print()
-            else:
-                index += j
-                for k in seats[index]:
-                    print(k, end="\t")
-                flag = True
-                print()
+#     # seat allocate iteration
+#     for i in temp:
+#         print(i, end="\t")
+#     else:
+#         print()
+#         for j in range(1, 9):
+#             if flag == True:
+#                 index -= j
+#                 for k in seats[index]:
+#                     print(k, end="\t")
+#                 flag = False
+#                 print()
+#             else:
+#                 index += j
+#                 for k in seats[index]:
+#                     print(k, end="\t")
+#                 flag = True
+#                 print()
 
-    return
+#     return
 
 
 def allocateSeat(item, x):
-    query = "update general set name = '{}', age = {}, gender = '{}', status = True where seat_no = {}".format(
-        item["first_name"] + ' ' + item["last_name"], item["age"], item["gender"], x)
+    query = "update general set name = '{}', age = {}, gender = '{}', status = True where seat_no = {}".format(item["first_name"] + ' ' + item["last_name"], item["age"], item["gender"], x)
     cur.execute(query)
     return
 
@@ -137,66 +135,25 @@ def multipleAllocateSeat(items):
         singleAllocateSeat(l)
     return
 
-
-details = [
-    [
-        {'first_name': 'Arijit', 'last_name': 'Singh', 'age': 50, 'gender': 'male'},
-        {'first_name': 'Shreya', 'last_name': 'Ghoshal',
-            'age': 40, 'gender': 'female'},
-        {'first_name': 'Sonu', 'last_name': 'Nigam', 'age': 55, 'gender': 'male'},
-        {'first_name': 'Lata', 'last_name': 'Mangeshkar',
-            'age': 70, 'gender': 'female'}
-    ],
-    [
-        {'first_name': 'John', 'last_name': 'Doe', 'age': 25, 'gender': 'male'}
-    ],
-    [
-        {'first_name': 'Alice', 'last_name': 'Smith', 'age': 30, 'gender': 'female'},
-        {'first_name': 'Bob', 'last_name': 'Johnson', 'age': 35, 'gender': 'male'}
-    ],
-    [
-        {'first_name': 'Emma', 'last_name': 'Brown', 'age': 28, 'gender': 'female'},
-    ],
-    [
-        {'first_name': 'Daniel', 'last_name': 'Williams', 'age': 40, 'gender': 'male'},
-        {'first_name': 'Grace', 'last_name': 'Miller', 'age': 62, 'gender': 'female'}
-    ],
-    [
-        {'first_name': 'Ryan', 'last_name': 'Davis', 'age': 32, 'gender': 'male'},
-        {'first_name': 'Sophia', 'last_name': 'Wilson',
-            'age': 29, 'gender': 'female'},
-        {'first_name': 'Michael', 'last_name': 'Jones', 'age': 45, 'gender': 'male'}
-    ],
-    [
-        {'first_name': 'Mukesh', 'last_name': 'Ambani', 'age': 65, 'gender': 'male'}
-    ],
-    [
-        {'first_name': 'Ethan', 'last_name': 'Martinez', 'age': 38, 'gender': 'male'},
-        {'first_name': 'Ava', 'last_name': 'Lee', 'age': 26, 'gender': 'female'},
-        {'first_name': 'William', 'last_name': 'Taylor', 'age': 33, 'gender': 'male'}
-    ],
-    [
-        {'first_name': 'Mia', 'last_name': 'Johnson', 'age': 31, 'gender': 'female'},
-        {'first_name': 'James', 'last_name': 'Clark', 'age': 29, 'gender': 'male'},
-        {'first_name': 'Noah', 'last_name': 'Ramirez', 'age': 41, 'gender': 'male'},
-        {'first_name': 'Liam', 'last_name': 'Perez', 'age': 67, 'gender': 'male'}
-    ],
-    [
-        {'first_name': 'Emily', 'last_name': 'Anderson',
-            'age': 23, 'gender': 'female'},
-        {'first_name': 'Abigail', 'last_name': 'Hill',
-            'age': 28, 'gender': 'female'},
-        {'first_name': 'Isabella', 'last_name': 'Baker',
-            'age': 30, 'gender': 'female'},
-        {'first_name': 'Logan', 'last_name': 'Garcia', 'age': 64, 'gender': 'male'},
-        {'first_name': 'Olivia', 'last_name': 'Moore', 'age': 27, 'gender': 'female'}
-    ]
-]
-
+details= []
 pq = PriorityQueue()
 
-for i in range(len(details)):
-    pq.push(details[i], len(details[i]), i)
+with open('data/passengers.csv', 'r') as file:
+    reader = csv.reader(file)
+    next(reader)
+    count = 0
+    for row in reader:
+        temp = []
+        for i in range(0,len(row),4):
+            record = {}
+            record["first_name"] = row[i]
+            record["last_name"] = row[i + 1]
+            record["age"] = int(row[i + 2])
+            record["gender"] = row[i + 3]
+            temp.append(record)
+        pq.push(temp, len(temp),count)
+        count += 1
+
 
 while pq.heap:
     popped_item = pq.pop()

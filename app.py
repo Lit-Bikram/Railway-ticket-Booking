@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+import create_file as csvfile
 
 app = Flask(__name__)
 
@@ -57,7 +58,7 @@ def submit_details():
             'gender': gender
         })
     
-    print(details)
+    csvfile.appendData(details)
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
