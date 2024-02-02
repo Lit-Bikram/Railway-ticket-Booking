@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passengers</title>
+    <link rel="stylesheet" href="static/css/index.css" />
+    <style>
+        .record {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <input type="hidden" id="seat_no" name="seat_number" value="{{ seat }}">
+    <input type="hidden" id="passengers" name="passengers" value="{{ passengers }}">
+
+    <div id="main">
+        <h1 class="head-passenger">Passengers</h1>
+        <br /><br />
+    </div>
+    <div class="center">
+        <input class="submit" type="button" value="Okay" onclick="redirectToIndex()">
+    </div>
+    <script src="static/js/main.js"></script>
+    <script>
+        var seat_no = document.getElementById("seat_no").value;
+        seat_no = seat_no.replace(/None/g, 'null');
+        seat_no = JSON.parse(seat_no);
+
+        var passengers_list = document.getElementById("passengers").value;
+        passengers_list = passengers_list.replace(/'/g, '"').replace(/None/g, 'null');
+        passengers_list = JSON.parse(passengers_list);
+
+        function appendDetails() {
+            const detailsContainer = document.getElementById("main");
+
+            for (let i = 0; i < seat_no.length; i++) {
+                const detailsDiv = document.createElement("div");
+                detailsDiv.className = "record";
+
+                if (seat_no[i] != null){
+                    detailsDiv.innerHTML = `
+                        <br><br>
+                        <div id="passengers">
+                            <p><b>Seat Number:</b> ${seat_no[i]}</p>
+                            <p><b>Status:</b> Confirmed</p>
+                            <p>Name: ${passengers_list[i]["first_name"]} ${passengers_list[i]["last_name"]}</p>
+                        </div>
+                        <br><br>
+                    `;
+                }else{
+                    detailsDiv.innerHTML = `
+                        <br><br>
+                        <div id="passengers">
+                            <p><b>Seat Number:</b> </p>
+                            <p><b>Status:</b> Waiting</p>
+                            <p>Name: ${passengers_list[i]["first_name"]} ${passengers_list[i]["last_name"]}</p>
+                        </div>
+                        <br><br>
+                    `;
+                }
+                console.log("in loop");
+                detailsContainer.appendChild(detailsDiv);
+            }
+        }
+        function redirectToIndex() {
+            window.location.href = "/"; // Redirect to the root URL where your Flask app serves index.html
+        }
+        window.onload = appendDetails;
+
+    </script>
+</body>
+</html>

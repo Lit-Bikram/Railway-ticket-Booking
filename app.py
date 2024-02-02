@@ -56,17 +56,22 @@ def submit_details():
         details.append({
             'first_name': first_name,
             'last_name': last_name,
-            'age': age,
+            'age': int(age),
             'gender': gender
         })
     
     csvfile.appendData(details)
-    if len(details) == 1:
-        q.singleAllocateSeat(details)
-    else:
-        q.multipleAllocateSeat(details)
     
-    return redirect(url_for("index"))
+    if len(details) == 1:
+        seats = []
+        seat_no = q.singleAllocateSeat(details)
+        seats.append(seat_no)
+    else:
+        seats = q.multipleAllocateSeat(details)
+    
+    return render_template("passengers.html",seat = seats, passengers = details)
+    
+    # return redirect(url_for("index"))
 
 if __name__ == "__main__":
     app.run(debug=True,port=8000)

@@ -1,91 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Enter Details</title>
     <link rel="stylesheet" href="static\css\index.css" />
-</head>
-<body>
+  </head>
+  <body>
     <div class="main">
-        <h1 class="head">Railway Ticket reservation system</h1>
-        <br /><br />
-        <form action="/submit" method="post">
-            <div id="details-container"></div>
-            <input type="hidden" id="personValue" name="person" value="{{ person }}" />
-            <div class="book-tickets">
-                <input
-                    class="submit"
-                    value="Book Tickets"
-                    type="submit"
-                    onclick="captureFormData()"
-                />
-            </div>
-        </form>
+      <h1 class="head">Railway Ticket reservation system</h1>
+      <br /><br />
+      <form action="/submit" method="post">
+        <div id="details-container"></div>
+        <input
+          type="hidden"
+          id="personValue"
+          name="person"
+          value="{{ person }}"
+        />
+        <div class="book-tickets">
+          <input
+            class="submit"
+            value="Book Tickets"
+            type="submit"
+            onclick="captureFormData()"
+          />
+        </div>
+      </form>
     </div>
     <div id="details">
-        <b class="fsize"
-            >First Name &emsp;
-            <input type="text" name="first-name" class="first-name" required/>
-            <br /><br />
-        </b>
-        <b class="fsize"
-            >Last Name &emsp;
-            <input type="text" name="last-name" class="last-name" />
-            <br /><br />
-        </b>
-        <b class="fsize"
-            >Age &emsp;
-            <input type="number" name="age" class="age"required />
-            <br /><br />
-        </b>
-        <b class="fsize">Gender &emsp;</b>
-        <label>
-            <input type="radio" name="gender" value="male" />
-            Male
-        </label>
+      <b class="fsize"
+        >First Name &emsp;
+        <input type="text" name="first-name" class="first-name" required />
+        <br /><br />
+      </b>
+      <b class="fsize"
+        >Last Name &emsp;
+        <input type="text" name="last-name" class="last-name" />
+        <br /><br />
+      </b>
+      <b class="fsize"
+        >Age &emsp;
+        <input type="number" name="age" class="age" required />
+        <br /><br />
+      </b>
+      <b class="fsize">Gender &emsp;</b>
+      <label>
+        <input type="radio" name="gender" value="male" />
+        Male
+      </label>
 
-        <label>
-            <input type="radio" name="gender" value="female" />
-            Female
-        </label>
+      <label>
+        <input type="radio" name="gender" value="female" />
+        Female
+      </label>
 
-        <label>
-            <input type="radio" name="gender" value="Other" />
-            Other
-        </label>
-        <br /><br /><br><br>
+      <label>
+        <input type="radio" name="gender" value="Other" />
+        Other
+      </label>
+      <br /><br /><br /><br />
     </div>
     <script src="static\js\main.js"></script>
     <script>
-        const person = document.getElementById("personValue").value;
-    
-        function appendDetails() {
-            const detailsContainer = document.getElementById("details-container");
-            const detailsTemplate = document.getElementById("details");
-    
-            for (let i = 0; i < person; i++) {
-                const detailsDiv = document.createElement("div");
-                detailsDiv.className = "person-number";
-                detailsDiv.innerHTML = `<b>Enter Details of Person ${i + 1}</b><br><br>`;
-                detailsContainer.appendChild(detailsDiv);
-    
-                const clonedDetails = detailsTemplate.cloneNode(true);
-                clonedDetails.id = "";
-                
-                
-                clonedDetails.querySelector(".first-name").name = `first-name-${i}`;
-                clonedDetails.querySelector(".last-name").name = `last-name-${i}`;
-                clonedDetails.querySelector(".age").name = `age-${i}`;
-                clonedDetails.querySelectorAll("input[type=radio]").forEach(radio => {
-                    radio.name = `gender-${i}`;
-                });
-    
-                detailsContainer.appendChild(clonedDetails);
-            }
+      const person = document.getElementById("personValue").value;
+
+      function appendDetails() {
+        const detailsContainer = document.getElementById("details-container");
+        const detailsTemplate = document.getElementById("details");
+
+        for (let i = 0; i < person; i++) {
+          const detailsDiv = document.createElement("div");
+          detailsDiv.className = "person-number";
+          detailsDiv.innerHTML = `<b>Enter Details of Person ${
+            i + 1
+          }</b><br><br>`;
+          detailsContainer.appendChild(detailsDiv);
+
+          const clonedDetails = detailsTemplate.cloneNode(true);
+          clonedDetails.id = "";
+
+          clonedDetails.querySelector(".first-name").name = `first-name-${i}`;
+          clonedDetails.querySelector(".last-name").name = `last-name-${i}`;
+          clonedDetails.querySelector(".age").name = `age-${i}`;
+          clonedDetails
+            .querySelectorAll("input[type=radio]")
+            .forEach((radio) => {
+              radio.name = `gender-${i}`;
+            });
+
+          detailsContainer.appendChild(clonedDetails);
         }
-    
-        window.onload = appendDetails;
+      }
+
+      window.onload = appendDetails;
     </script>
-</body>
+  </body>
 </html>

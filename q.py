@@ -3,16 +3,16 @@ import pymysql
 import csv
 import create_file as cfile
 
-conn = pymysql.connect(host='localhost', user='root',password="Bikram@2004", db='train')
-cur = conn.cursor(pymysql.cursors.DictCursor)
-
 
 def createReferece(x):
-
+    conn = pymysql.connect(host='localhost', user='root',password="Bikram@2004", db='train')
+    cur = conn.cursor(pymysql.cursors.DictCursor)
     row = "select * from general where seat_no = {}".format(x)
     cur.execute(row)
     item = cur.fetchall()
     item = item[0]
+    cur.close()
+    conn.close()
     return item
 
 
@@ -59,8 +59,19 @@ def getALlSeatNumber():
 
 
 def allocateSeat(item, x):
-    query = "update general set name = '{}', age = {}, gender = '{}', status = True where seat_no = {}".format(item["first_name"] + ' ' + item["last_name"], item["age"], item["gender"], x)
-    cur.execute(query)
+    try:
+        conn = pymysql.connect(host='localhost', user='root', password="Bikram@2004", db='train')
+        with conn.cursor() as cur:
+            query = "UPDATE general SET name = %s, age = %s, gender = %s, status = True WHERE seat_no = %s"
+            values = (item["first_name"] + ' ' + item["last_name"], item["age"], item["gender"], x)
+            cur.execute(query, values)
+            print("Record added successfully")
+
+        conn.commit()  # Commit the changes to the database
+    except pymysql.Error as e:
+        print(f"Error: {e}")
+    finally:
+        conn.close()
     return
 
 
@@ -82,7 +93,7 @@ def singleAllocateSeat(item):
                 continue
             else:
                 allocateSeat(item, i)
-                return
+                return i
         else:
             continue
     else:
@@ -96,7 +107,7 @@ def singleAllocateSeat(item):
                             continue
                         else:
                             allocateSeat(item, k)
-                            return
+                            return k
                     pass
                 flag = False
             else:
@@ -108,7 +119,7 @@ def singleAllocateSeat(item):
                             continue
                         else:
                             allocateSeat(item, k)
-                            return
+                            return k
                     pass
                 flag = True
         else:
@@ -117,6 +128,8 @@ def singleAllocateSeat(item):
 
 
 def checkAvailability(item, arr):
+    conn = pymysql.connect(host='localhost', user='root',password="Bikram@2004", db='train')
+    cur = conn.cursor(pymysql.cursors.DictCursor)
     members = len(item)
     query = "select count(*) as count from general where status is FALSE and seat_no >= {} and seat_no <= {};".format(
         arr[0], arr[-1])
@@ -124,47 +137,56 @@ def checkAvailability(item, arr):
     item = cur.fetchall()
     item = item[0]
     count = item["count"]
-
+    
+    cur.close()
+    conn.close()
     if members <= count:
         return True
     return False
 
 
 def multipleAllocateSeat(items):
+    seats = []
     for item in items:
         l = []
         l.append(item)
-        singleAllocateSeat(l)
-    return
+        seat_no = singleAllocateSeat(l)
+        seats.append(seat_no)
+    return seats
 
-pq = PriorityQueue()
+def addSeat():
+    conn = pymysql.connect(host='localhost', user='root',password="Bikram@2004", db='train')
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    pq = PriorityQueue()
 
-with open('data/passengers.csv', 'r') as file:
-    reader = csv.reader(file)
-    next(reader)
-    count = 0
-    for row in reader:
-        temp = []
-        for i in range(0,len(row),4):
-            record = {}
-            record["first_name"] = row[i]
-            record["last_name"] = row[i + 1]
-            record["age"] = int(row[i + 2])
-            record["gender"] = row[i + 3]
-            temp.append(record)
-        pq.push(temp, len(temp),count)
-        # temp is a list of dictionaries
-        count += 1
+    with open('data/passengers.csv', 'r') as file:
+        reader = csv.reader(file)
+        next(reader)
+        count = 0
+        for row in reader:
+            temp = []
+            for i in range(0,len(row),4):
+                record = {}
+                record["first_name"] = row[i]
+                record["last_name"] = row[i + 1]
+                record["age"] = int(row[i + 2])
+                record["gender"] = row[i + 3]
+                temp.append(record)
+            pq.push(temp, len(temp),count)
+            # temp is a list of dictionaries
+            count += 1
 
-while pq.heap:
-    popped_item = pq.pop()
-    if len(popped_item) == 1:
-        singleAllocateSeat(popped_item)
-    else:
-        multipleAllocateSeat(popped_item)
-    # print(popped_item, len(popped_item), "\n")
+    while pq.heap:
+        popped_item = pq.pop()
+        if len(popped_item) == 1:
+            seat_no = singleAllocateSeat(popped_item)
+            print(seat_no)
+        else:
+            seats = multipleAllocateSeat(popped_item)
+            print(seats)
+        # print(popped_item, len(popped_item), "\n")
 
-conn.commit()
+    conn.commit()
 
-cur.close()
-conn.close()
+    cur.close()
+    conn.close()
