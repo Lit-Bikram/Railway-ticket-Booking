@@ -106,4 +106,19 @@ def readdata():
                 
     return
 
-readdata()
+def waitingList(item):
+    with open("data/waitinglist.csv", 'a', newline='') as file:
+        # Check if the file is empty (no headers)
+        file.seek(0, 2)
+        is_empty = file.tell() == 0
+
+        fieldnames = ['first_name', 'last_name', 'age', 'gender']
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+        # If the file is empty, write the headers
+        if is_empty:
+            writer.writeheader()
+
+        # Write the new data
+        writer.writerow(item)
+    return

@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import create_file as csvfile
+from datetime import datetime
+import q as q
 
 app = Flask(__name__)
 
@@ -59,6 +61,11 @@ def submit_details():
         })
     
     csvfile.appendData(details)
+    if len(details) == 1:
+        q.singleAllocateSeat(details)
+    else:
+        q.multipleAllocateSeat(details)
+    
     return redirect(url_for("index"))
 
 if __name__ == "__main__":

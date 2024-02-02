@@ -1,6 +1,7 @@
 from pqueue import PriorityQueue
 import pymysql
 import csv
+import create_file as cfile
 
 conn = pymysql.connect(host='localhost', user='root',password="Bikram@2004", db='train')
 cur = conn.cursor(pymysql.cursors.DictCursor)
@@ -110,7 +111,8 @@ def singleAllocateSeat(item):
                             return
                     pass
                 flag = True
-
+        else:
+            cfile.waitingList(item)
     return
 
 
@@ -131,11 +133,10 @@ def checkAvailability(item, arr):
 def multipleAllocateSeat(items):
     for item in items:
         l = []
-        item = l.append(item)
+        l.append(item)
         singleAllocateSeat(l)
     return
 
-details= []
 pq = PriorityQueue()
 
 with open('data/passengers.csv', 'r') as file:
@@ -152,8 +153,8 @@ with open('data/passengers.csv', 'r') as file:
             record["gender"] = row[i + 3]
             temp.append(record)
         pq.push(temp, len(temp),count)
+        # temp is a list of dictionaries
         count += 1
-
 
 while pq.heap:
     popped_item = pq.pop()
