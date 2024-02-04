@@ -303,3 +303,26 @@ tr:hover {
   height: 200px;
   border: 3px solid green;
 }
+/* 
+.bogie{
+  height: 700px;
+  width: 600px;
+  margin-left: 50px;
+  background: cyan;
+}
+.container{
+  display: flex;
+  justify-content: center;
+}
+
+.seat{
+  height: 20px;
+  width: 20px;
+  background-color: greenyellow;
+  padding: 20px;
+  margin-left: 10px;
+
+}
+.compartment{
+  display: flex;
+} */

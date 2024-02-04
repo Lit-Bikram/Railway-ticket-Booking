@@ -5,29 +5,36 @@ import q as q
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def hello_world():
     return render_template("index.html")
+
 
 @app.route("/index.html")
 def index():
     return render_template("index.html")
 
+
 @app.route("/meal.html")
 def meal():
     return render_template("meal.html")
+
 
 @app.route("/holiday.html")
 def holiday():
     return render_template("holiday.html")
 
+
 @app.route("/service.html")
 def service():
     return render_template("service.html")
 
+
 @app.route("/contact.html")
 def contact():
     return render_template("contact.html")
+
 
 @app.route('/getDetails', methods=['POST'])
 def submit():
@@ -37,41 +44,43 @@ def submit():
         date = request.form['date']
         bogie = request.form['bogie']
         person = request.form['person']
-        
-        print(source,to,date,bogie,person)
-        return render_template("details.html",person = person)
+
+        print(source, to, date, bogie, person)
+        return render_template("details.html", person=person)
+
 
 @app.route('/submit', methods=['POST'])
 def submit_details():
     global details
     person_value = int(request.form.get('person'))
-    
+
     details = []
     for i in range(person_value):
         first_name = request.form.get(f'first-name-{i}')
         last_name = request.form.get(f'last-name-{i}')
         age = request.form.get(f'age-{i}')
         gender = request.form.get(f'gender-{i}')
-        
+
         details.append({
             'first_name': first_name,
             'last_name': last_name,
             'age': int(age),
             'gender': gender
         })
-    
+
     csvfile.appendData(details)
-    
+
     if len(details) == 1:
         seats = []
         seat_no = q.singleAllocateSeat(details)
         seats.append(seat_no)
     else:
         seats = q.multipleAllocateSeat(details)
-    
-    return render_template("passengers.html",seat = seats, passengers = details)
-    
+
+    return render_template("passengers.html", seat=seats, passengers=details)
+
     # return redirect(url_for("index"))
 
+
 if __name__ == "__main__":
-    app.run(debug=True,port=8000)
+    app.run(debug=True, host="192.168.79.130", port=8000)
